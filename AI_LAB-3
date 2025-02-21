@@ -1,0 +1,257 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOcbVWEmXVjx1GPifJcd3He",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Siddhartht9/LabAI/blob/main/AI_LAB-3\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!git clone git@github.com:Siddhartht9/LabAI.git"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "DdeTagyi8KSR",
+        "outputId": "8aa06342-0f27-4da5-fb32-17fb0f8ed440"
+      },
+      "execution_count": 2,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Cloning into 'LabAI'...\n",
+            "Host key verification failed.\n",
+            "fatal: Could not read from remote repository.\n",
+            "\n",
+            "Please make sure you have the correct access rights\n",
+            "and the repository exists.\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!git clone https://github.com/Siddhartht9/LabAI.git"
+      ],
+      "metadata": {
+        "id": "XJTWyPUAUfgW",
+        "outputId": "5693ca64-710e-4e90-faa5-bf913fff1c2a",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Cloning into 'LabAI'...\n",
+            "remote: Enumerating objects: 34, done.\u001b[K\n",
+            "remote: Counting objects: 100% (34/34), done.\u001b[K\n",
+            "remote: Compressing objects: 100% (33/33), done.\u001b[K\n",
+            "remote: Total 34 (delta 15), reused 0 (delta 0), pack-reused 0 (from 0)\u001b[K\n",
+            "Receiving objects: 100% (34/34), 328.94 KiB | 9.40 MiB/s, done.\n",
+            "Resolving deltas: 100% (15/15), done.\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Change directory to LabAI\n",
+        "%cd LabAI\n",
+        "\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "46UHpbW6AOyw",
+        "outputId": "8152babc-ece9-4081-d854-38fd7c812d06"
+      },
+      "execution_count": 4,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "/content/LabAI\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!ls\n"
+      ],
+      "metadata": {
+        "id": "-kZZgxKjVZjN",
+        "outputId": "dfbea861-94da-44c5-da8b-1cd1695b688d",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "execution_count": 5,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "GitwithColab.ipynb  LICENSE  Python_basics.ipynb  README.md\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 6,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "c0TNXXJS5dKy",
+        "outputId": "432987fc-96b8-4ab2-b3f0-f92d10c4d495"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Path: Arad -> Sibiu -> Rimnicu -> Pitesti -> Bucharest\n",
+            "Total Cost: 418\n"
+          ]
+        }
+      ],
+      "source": [
+        "import heapq\n",
+        "\n",
+        "# Define the Romania map graph with distances\n",
+        "graph = {\n",
+        "    'Arad': {'Zerind': 75, 'Timisoara': 118, 'Sibiu': 140},\n",
+        "    'Zerind': {'Arad': 75, 'Oradea': 71},\n",
+        "    'Oradea': {'Zerind': 71, 'Sibiu': 151},\n",
+        "    'Timisoara': {'Arad': 118, 'Lugoj': 111},\n",
+        "    'Lugoj': {'Timisoara': 111, 'Mehadia': 70},\n",
+        "    'Mehadia': {'Lugoj': 70, 'Drobeta': 75},\n",
+        "    'Drobeta': {'Mehadia': 75, 'Craiova': 120},\n",
+        "    'Craiova': {'Drobeta': 120, 'Rimnicu': 146, 'Pitesti': 138},\n",
+        "    'Sibiu': {'Arad': 140, 'Oradea': 151, 'Fagaras': 99, 'Rimnicu': 80},\n",
+        "    'Fagaras': {'Sibiu': 99, 'Bucharest': 211},\n",
+        "    'Rimnicu': {'Sibiu': 80, 'Craiova': 146, 'Pitesti': 97},\n",
+        "    'Pitesti': {'Rimnicu': 97, 'Craiova': 138, 'Bucharest': 101},\n",
+        "    'Bucharest': {'Fagaras': 211, 'Pitesti': 101, 'Giurgiu': 90, 'Urziceni': 85},\n",
+        "    'Giurgiu': {'Bucharest': 90},\n",
+        "    'Urziceni': {'Bucharest': 85, 'Vaslui': 142, 'Hirsova': 98},\n",
+        "    'Hirsova': {'Urziceni': 98, 'Eforie': 86},\n",
+        "    'Eforie': {'Hirsova': 86},\n",
+        "    'Vaslui': {'Urziceni': 142, 'Iasi': 92},\n",
+        "    'Iasi': {'Vaslui': 92, 'Neamt': 87},\n",
+        "    'Neamt': {'Iasi': 87}\n",
+        "}\n",
+        "\n",
+        "# Heuristic values (straight-line distance to Bucharest)\n",
+        "heuristic = {\n",
+        "    'Arad': 366, 'Zerind': 374, 'Oradea': 380, 'Timisoara': 329, 'Lugoj': 244,\n",
+        "    'Mehadia': 241, 'Drobeta': 242, 'Craiova': 160, 'Sibiu': 253, 'Fagaras': 178,\n",
+        "    'Rimnicu': 193, 'Pitesti': 98, 'Bucharest': 0, 'Giurgiu': 77, 'Urziceni': 80,\n",
+        "    'Hirsova': 151, 'Eforie': 161, 'Vaslui': 199, 'Iasi': 226, 'Neamt': 234\n",
+        "}\n",
+        "\n",
+        "def a_star_search(start, goal):\n",
+        "    priority_queue = []\n",
+        "    heapq.heappush(priority_queue, (heuristic[start], 0, start, []))  # (f, g, node, path)\n",
+        "    visited = set()\n",
+        "\n",
+        "    while priority_queue:\n",
+        "        _, g, current, path = heapq.heappop(priority_queue)\n",
+        "\n",
+        "        if current in visited:\n",
+        "            continue\n",
+        "        path = path + [current]\n",
+        "        visited.add(current)\n",
+        "\n",
+        "        if current == goal:\n",
+        "            return path, g  # Return the path and total cost\n",
+        "\n",
+        "        for neighbor, cost in graph[current].items():\n",
+        "            if neighbor not in visited:\n",
+        "                new_g = g + cost\n",
+        "                f = new_g + heuristic[neighbor]\n",
+        "                heapq.heappush(priority_queue, (f, new_g, neighbor, path))\n",
+        "\n",
+        "    return None, float('inf')  # If no path is found\n",
+        "\n",
+        "# Example usage\n",
+        "start_city = \"Arad\"\n",
+        "goal_city = \"Bucharest\"\n",
+        "path, cost = a_star_search(start_city, goal_city)\n",
+        "\n",
+        "print(\"Path:\", \" -> \".join(path))\n",
+        "print(\"Total Cost:\", cost)\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Configure Git (only once per Colab session)\n",
+        "!git config --global user.email \"stiwari_be22@thapar.edu\"\n",
+        "!git config --global user.name \"Siddhartht9\"\n",
+        "\n",
+        "# Add, commit, and push changes\n",
+        "!git add .\n",
+        "!git commit -m \"Added A* Search Algorithm\"\n",
+        "!git push https://github.com/Siddhartht9/LabAI.git\n"
+      ],
+      "metadata": {
+        "id": "aEuq3d5pV2ix",
+        "outputId": "d7f380fd-8d95-48e6-e72f-0eee0ee93c02",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "execution_count": 8,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "On branch main\n",
+            "Your branch is up to date with 'origin/main'.\n",
+            "\n",
+            "nothing to commit, working tree clean\n",
+            "fatal: could not read Username for 'https://github.com': No such device or address\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
